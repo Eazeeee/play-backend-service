@@ -22,8 +22,8 @@ async function seedBanks() {
   try {
     console.log('Seeding Nigerian banks...');
 
-    const { rowCount } = await db.query('SELECT COUNT(*) FROM banks');
-    const existingBanksCount = parseInt(rowCount > 0 ? rowCount : 0);
+    const result = await db.query('SELECT COUNT(*) as count FROM banks');
+    const existingBanksCount = parseInt(result.rows[0].count);
 
     if (existingBanksCount > 0) {
       console.log(`✅ Banks already seeded (${existingBanksCount} banks found)`);
