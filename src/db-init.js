@@ -25,9 +25,14 @@ async function seedBanks() {
     const result = await db.query('SELECT COUNT(*) as count FROM banks');
     const existingBanksCount = parseInt(result.rows[0].count);
 
-    if (existingBanksCount > 0) {
+    if (existingBanksCount > 0 && existingBanksCount === nigerianBanks.length) {
       console.log(`✅ Banks already seeded (${existingBanksCount} banks found)`);
       return;
+    }
+
+    if (existingBanksCount > 0) {
+      console.log(`🔄 Clearing existing ${existingBanksCount} banks for re-seeding...`);
+      await db.query('DELETE FROM banks');
     }
 
     for (const bank of nigerianBanks) {
